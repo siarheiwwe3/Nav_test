@@ -1,0 +1,1 @@
+Test cases created check the basic site functions
