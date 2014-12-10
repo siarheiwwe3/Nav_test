@@ -18,11 +18,13 @@ class SignInTest(unittest.TestCase):
         self.assertEqual([], self.verificationErrors, "Test passed")    
         sleep(2)
         
+    def signOut(self):
+        driver = self.driver
+        driver.find_element_by_class_name("logout").click()
         
         
         
-        
-    def test_sign_in_wwe(self):
+    """def test_sign_in_wwe(self):
         print "Start execusion", SignInTest.test_sign_in_wwe.__name__
         driver = self.driver
         driver.find_element_by_css_selector(".sign-in").click()
@@ -97,16 +99,50 @@ class SignInTest(unittest.TestCase):
         user_name =  d.find_element_by_class_name("display-name-new").text
         self.assertEqual("SERGE W.", user_name, "Can't sign in like Thomas T")
         print "User name successfully confirmed"
+    """    
+
+
+
+class WwePollTest(unittest.TestCase):
+    def setUp(self):
+        self.driver = webdriver.Firefox()
+        self.driver.implicitly_wait(10)
+        self.base_url=BASE_URL
+        self.verificationErrors = []
+        self.driver.get(self.base_url)
+
+    def tearDown(self):
+        self.driver.quit()
+        self.assertEqual([], self.verificationErrors, "Test passed")    
+        sleep(2)
+
+    def test_fortest(self):
+        print "Hello world"
+        driver = self.driver
+        #driver.find_element_by_css_selector(".sign-in").click()
+        try:
+            driver.find_element_by_css_selector(r'.content > a[href^="/inside/polls"]:first-child').click()
+            driver.find_element_by_css_selector(".choices div:first-child a:first-child").click()
+            driver.find_element_by_class_name("submit").click()
+            count_value = driver.find_element_by_class_name("total").text
+            value = count_value[13:]
+            
+            print value
+        except:
+            print "Can't locate poll"
         
-        
-if __name__=="__main__":
-    unittest.main()
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
+if __name__ == "__main__":
+    suite = unittest.TestLoader().loadTestsFromTestCase( \
+    SignInTest)
+    suite.addTest(WwePollTest("test_fortest"))
+    unittest.TextTestRunner(verbosity=2).run(suite)
+           
         
         
         
